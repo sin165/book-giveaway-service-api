@@ -11,3 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('email', 'password')
+
+
+class UserPublicSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    email = serializers.CharField(read_only=True)
