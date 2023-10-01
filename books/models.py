@@ -33,6 +33,7 @@ class Book(models.Model):
     condition = models.ForeignKey(Condition, related_name='books',
                                   on_delete=models.SET_NULL, blank=True, null=True)
     retrieval_info = models.TextField()
+    image = models.ImageField(upload_to='Images/', blank=True, null=True)
     interested_users = models.ManyToManyField(User, related_name="wanted_books", blank=True)
     receiver = models.ForeignKey(User, on_delete=models.SET_NULL,
                                  blank=True, null=True, related_name="receiving_books")
