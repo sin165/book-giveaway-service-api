@@ -30,7 +30,8 @@ class Book(models.Model):
     title = models.CharField(max_length=256)
     authors = models.ManyToManyField(Author, related_name='books')
     genres = models.ManyToManyField(Genre, related_name='books', blank=True)
-    condition = models.ForeignKey(Condition, on_delete=models.SET_NULL, blank=True, null=True)
+    condition = models.ForeignKey(Condition, related_name='books',
+                                  on_delete=models.SET_NULL, blank=True, null=True)
     retrieval_info = models.TextField()
     interested_users = models.ManyToManyField(User, related_name="wanted_books", blank=True)
     receiver = models.ForeignKey(User, on_delete=models.SET_NULL,

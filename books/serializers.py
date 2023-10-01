@@ -4,6 +4,39 @@ from users.serializers import UserPublicSerializer
 from .models import Author, Genre, Condition, Book
 
 
+class BookInlineSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='book_detail',
+        lookup_field='pk',
+    )
+
+    class Meta:
+        model = Book
+        fields = [
+            'title',
+            'url',
+        ]
+
+
+class AuthorDetailSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='author_detail',
+        lookup_field='pk',
+    )
+    books = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Author
+        fields = [
+            'name',
+            'url',
+            'books',
+        ]
+    
+    def get_books(self, obj):
+        return BookInlineSerializer(obj.books, many=True, context=self.context).data
+
+
 class AuthorSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='author_detail',
@@ -18,6 +51,25 @@ class AuthorSerializer(serializers.ModelSerializer):
         ]
 
 
+class GenreDetailSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='genre_detail',
+        lookup_field='pk',
+    )
+    books = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Genre
+        fields = [
+            'name',
+            'url',
+            'books',
+        ]
+    
+    def get_books(self, obj):
+        return BookInlineSerializer(obj.books, many=True, context=self.context).data
+
+
 class GenreSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='genre_detail',
@@ -30,6 +82,25 @@ class GenreSerializer(serializers.ModelSerializer):
             'name',
             'url',
         ]
+
+
+class ConditionDetailSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='condition_detail',
+        lookup_field='pk',
+    )
+    books = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Condition
+        fields = [
+            'name',
+            'url',
+            'books',
+        ]
+    
+    def get_books(self, obj):
+        return BookInlineSerializer(obj.books, many=True, context=self.context).data
 
 
 class ConditionSerializer(serializers.ModelSerializer):
@@ -79,11 +150,16 @@ class BookListDetailSerializer(serializers.ModelSerializer):
     condition = serializers.SerializerMethodField(read_only=True)
     interested_users = serializers.SerializerMethodField(read_only=True)
     receiver = serializers.SerializerMethodField(read_only=True)
+    url = serializers.HyperlinkedIdentityField(
+        view_name='book_detail',
+        lookup_field='pk',
+    )
 
     class Meta:
         model = Book
         fields = [
             'id',
+            'url',
             'title',
             'authors',
             'genres',

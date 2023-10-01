@@ -5,13 +5,15 @@ from rest_framework.views import APIView
 from .permissions import IsOwnerOrReadOnly
 from .models import Author, Genre, Condition, Book
 from .serializers import (AuthorSerializer, GenreSerializer, ConditionSerializer,
+                          AuthorDetailSerializer, GenreDetailSerializer,
+                          ConditionDetailSerializer,
                           BookCreateUpdateSerializer, BookListDetailSerializer,
                           BookUpdateReceiverSerializer)
 
 
 class AuthorDetailAPIView(generics.RetrieveAPIView):
     queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
+    serializer_class = AuthorDetailSerializer
 
 
 class AuthorListCreateAPIView(generics.ListCreateAPIView):
@@ -21,7 +23,7 @@ class AuthorListCreateAPIView(generics.ListCreateAPIView):
 
 class GenreDetailAPIView(generics.RetrieveAPIView):
     queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
+    serializer_class = GenreDetailSerializer
 
 
 class GenreListCreateAPIView(generics.ListCreateAPIView):
@@ -31,7 +33,7 @@ class GenreListCreateAPIView(generics.ListCreateAPIView):
 
 class ConditionDetailAPIView(generics.RetrieveAPIView):
     queryset = Condition.objects.all()
-    serializer_class = ConditionSerializer
+    serializer_class = ConditionDetailSerializer
 
 
 class ConditionListCreateAPIView(generics.ListCreateAPIView):
