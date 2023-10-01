@@ -43,6 +43,22 @@ class BookListAPIView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookListDetailSerializer
 
+    def get_queryset(self):
+        queryset = Book.objects.all()
+        title = self.request.query_params.get('title')
+        author = self.request.query_params.get('author')
+        genre = self.request.query_params.get('genre')
+        condition = self.request.query_params.get('condition')
+        if title is not None:
+            queryset = queryset.filter(title__icontains=title)
+        if author is not None:
+            queryset = queryset.filter(authors__name__icontains=author)
+        if genre is not None:
+            queryset = queryset.filter(genres__name__icontains=genre)
+        if condition is not None:
+            queryset = queryset.filter(condition__name__icontains=condition)
+        return queryset
+
 
 class BookDetailAPIView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
