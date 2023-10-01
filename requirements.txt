@@ -3,3 +3,6 @@ psycopg2>=2.8
 djangorestframework
 djangorestframework-simplejwt
 pillow
+pyyaml
+uritemplate
+django-rest-swagger
